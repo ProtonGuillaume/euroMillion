@@ -4,11 +4,13 @@ from typing import Optional
 import os
 import datetime
 import csv
+import modele
 
 # Ici le chemin du ficiher de sauvegarde des tirages de l'EuroMillions
 csv_file = "EuroMillions_numbers.csv"
 csv_file = "test.csv"
 
+my_model = modele.load_model()
 
 def validate_date(date_text):
     """Vérifie si la date passée en paramètre correspond à un certain format.
@@ -88,11 +90,13 @@ async def evaluate_prediction(item: Item):
     if (item.e1 == item.e2):
         raise HTTPException(status_code=422, detail="Unprocessable Entity : the star numbers should be different from each others.")
     
+    my_pred = my_model.predict_proba([[item.n1,item.n2,item.n3,item.n4,item.n5,item.e1,item.e2]])
+
     # L'item est valide, il ne manque qu'à le donner au modèle
     
     #probability = evaluate(item) # evaluation with the model
-    probability = 10.
-    return({"message": f"Win probability : {probability} %"})
+    probability = my_pred[0][1]
+    return({"message": f"Win probability : {probability} %, Lose probability : {1-probability} %"})
 
 @app.get("/api/predict/")
 async def get_prediction():
@@ -168,3 +172,4 @@ async def regenerate_model():
     """
     # regenerate(parameters)
     return({"message": "Done."})
+
