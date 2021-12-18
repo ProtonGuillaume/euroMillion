@@ -75,5 +75,10 @@ if not(os.path.exists("modele_pickle.pkl")):
     init_modele()
 
 
-# A quel point le modèle est correct ?
-# print("Précision/score du modèle :",metrics.accuracy_score(y_test,y_pred)*100, "%")
+def get_bon_tirage():
+    modele = load_model() 
+    while True:
+        x = random_tirage()
+        predi_test = modele.predict_proba([x])
+        if (predi_test[0][1] > 0.062):
+            return x
