@@ -75,8 +75,6 @@ app = FastAPI()
 async def evaluate_prediction(item: Item):
     """Evalue le tirage passé en paramètre.
     
-    TODO Define the value of the item with the model prediction
-    
     Args:
         item (Item): Le tirage à évaluer.
     
@@ -90,27 +88,25 @@ async def evaluate_prediction(item: Item):
     if (item.e1 == item.e2):
         raise HTTPException(status_code=422, detail="Unprocessable Entity : the star numbers should be different from each others.")
     
+    # evaluation with the model
     my_pred = my_model.predict_proba([[item.n1,item.n2,item.n3,item.n4,item.n5,item.e1,item.e2]])
-
-    # L'item est valide, il ne manque qu'à le donner au modèle
-    
-    #probability = evaluate(item) # evaluation with the model
     probability = my_pred[0][1]
+
     return({"message": f"Win probability : {probability} %, Lose probability : {1-probability} %"})
 
 @app.get("/api/predict/")
 async def get_prediction():
     """Demande au modèle une prédiction de tirage gagnant.
-    
-    TODO Define the value of the item with the model prediction
-    
+
     Returns:
         item (Item): un tirage qui a une probabilité supposée plus élevée d'être gagnant.
     
     """
-    # item = model_prediction() # model prediction
-    item = Item(1, 2, 3, 4, 5, 6, 7)
-    return(item)
+
+    #prédiction de tirage gagnant
+    bon_tirage = modele.get_bon_tirage()
+
+    return({"bon_tirage": f"Bon tirage : {bon_tirage}"})
 
 @app.get("/api/model")
 async def get_model_details():
@@ -121,7 +117,7 @@ async def get_model_details():
     
     """
     metric = modele.metrics_model()
-    algorithm = "Support Vector Machines"
+    algorithm = "Classifier - Support Vector Machines"
     training_parameters = "Kernel = Linear ; C = 0.001 ; Gamma = 0.0001"
 
     return({"metric": metric, "algorithm": algorithm, "training_parameters": training_parameters})
