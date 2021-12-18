@@ -11,10 +11,7 @@ import numpy as np
 import pickle
 import os
 
-
-
-def init_modele():
-
+def return_data():
     data = pd.read_csv("EuroMillions_numbers.csv", sep=";")
 
     y = np.where(data["Winner"]>=1, 1, 0)
@@ -29,14 +26,17 @@ def init_modele():
     for i in range(5268):
         x.append(random_tirage())
 
-    x_train,x_test,y_train,y_test = model_selection.train_test_split(x,y,test_size = 0.25,random_state=0)
+    return model_selection.train_test_split(x,y,test_size = 0.25,random_state=0)
+
+
+def init_modele():
+
+    x_train,x_test,y_train,y_test = return_data()
 
     mvs = svm.SVC(probability=True)
     modele = mvs.fit(x_train,y_train)
-    #y_pred = modele.predict(x_test)
+    
     save_model(modele)
-
-
 
 def random_tirage():
     tirage = []
@@ -55,6 +55,13 @@ def random_tirage():
         arr12.pop(idx)
     return tirage
 
+def metrics_model():
+    modele = load_model()
+    x_train,x_test,y_train,y_test = return_data()
+
+    y_pred = modele.predict(x_test)
+    return metrics.classification_report(y_test, y_pred)
+
 def save_model(modele):
     with open("modele_pickle.pkl","wb") as f:
         pickle.dump(modele, f)
@@ -67,7 +74,6 @@ def load_model():
 if not(os.path.exists("modele_pickle.pkl")):
     init_modele()
 
-#print(metrics.confusion_matrix(y_test,y_pred))
 
 # A quel point le modèle est correct ?
 # print("Précision/score du modèle :",metrics.accuracy_score(y_test,y_pred)*100, "%")
