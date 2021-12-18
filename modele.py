@@ -33,7 +33,7 @@ def init_modele():
 
     x_train,x_test,y_train,y_test = return_data()
 
-    mvs = svm.SVC(probability=True)
+    mvs = svm.SVC(probability=True, C=0.001, gamma=0.0001, kernel='linear')
     modele = mvs.fit(x_train,y_train)
     
     save_model(modele)
