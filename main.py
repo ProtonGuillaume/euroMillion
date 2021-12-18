@@ -82,6 +82,14 @@ async def evaluate_prediction(item: Item):
         float: La probabilité d'avoir la combinaison gagnante.
 
     """
+    if (validate_drawing(item)):
+        raise HTTPException(status_code=422, detail="Unprocessable Entity : the numbers should be different from each others.")
+
+    if (item.e1 == item.e2):
+        raise HTTPException(status_code=422, detail="Unprocessable Entity : the star numbers should be different from each others.")
+    
+    # L'item est valide, il ne manque qu'à le donner au modèle
+    
     #probability = evaluate(item) # evaluation with the model
     probability = 10.
     return({"message": f"Win probability : {probability} %"})
