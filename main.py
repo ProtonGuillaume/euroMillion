@@ -115,16 +115,14 @@ async def get_prediction():
 @app.get("/api/model")
 async def get_model_details():
     """Retourne les détails du modèle utilisé.
-    
-    TODO Return the models details
-    
+
     Returns:
         string: JSON décrivant la métrique, l'algorithme et les paramètres utilisés pour le modèle.
     
     """
-    metric = "1 meter"
-    algorithm = "random"
-    training_parameters = "f(x)"
+    metric = modele.metrics_model()
+    algorithm = "Support Vector Machines"
+    training_parameters = "Kernel = Linear ; C = 0.001 ; Gamma = 0.0001"
 
     return({"metric": metric, "algorithm": algorithm, "training_parameters": training_parameters})
 
@@ -165,11 +163,12 @@ async def add_item(item: Item):
 async def regenerate_model():
     """Relance l'entrainement du modèle de prédiction.
     
-    TODO Add the function to regenerate the model here
-
     Returns:
         str: Un message pour dire que le modèle a fini son entrainement.
     """
-    # regenerate(parameters)
+
+    # Regenerate the model
+    modele.init_modele()
+
     return({"message": "Done."})
 
