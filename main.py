@@ -8,7 +8,6 @@ import modele
 
 # Ici le chemin du ficiher de sauvegarde des tirages de l'EuroMillions
 csv_file = "EuroMillions_numbers.csv"
-csv_file = "test.csv"
 
 my_model = modele.load_model()
 

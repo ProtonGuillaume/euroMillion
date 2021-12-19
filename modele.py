@@ -6,7 +6,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn import metrics
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.ensemble import RandomForestClassifier
-import matplotlib.pyplot as plt
 import numpy as np
 import pickle
 import os
