@@ -10,6 +10,7 @@ Choix techniques de l'application
 
 Afin de réaliser ce TP, nous avons choisi d'utiliser scikitlearn et plus particulièrement le classifieur SVM (Support Vector Machines), en combinaison avec FastAPI.
 
+Selon les performances de notre modèle, nous avons choisi, pour le tirage ayant le plus de chances de gagner, d'utiliser une probabilité minimum de 6.2% afin d'obtenir un résultat rapide et précis.
 
 
 Installation de l'application
