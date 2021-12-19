@@ -8,7 +8,7 @@ Mathieu LAPASSADE (ICC) et Guillaume PROTON (IA)
 Choix techniques de l'application
 ---------------------------------
 
-Afin de réaliser ce TP, nous avons choisi d'utiliser scikitlearn et plus particulièrement le classifieur SVM (Suppotr Vector Machines), en combinaison avec FastAPI.
+Afin de réaliser ce TP, nous avons choisi d'utiliser scikitlearn et plus particulièrement le classifieur SVM (Support Vector Machines), en combinaison avec FastAPI.
 
 
 
